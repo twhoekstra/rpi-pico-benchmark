@@ -13,39 +13,31 @@ def timed_function(f, *args, **kwargs):
         return result
     return new_func
 
-def bytecode_read(baton):
-    baton.acquire()
+def bytecode_read():
     from machine import Pin, ADC
-    a0 = ADC(Pin(26))
+    a0 = ADC(0)
 
     samples = [0 for __ in range(num_samples)]
 
     for ii in range(num_samples):
         samples[ii] = a0.read_u16()
-    baton.release()
 
 @micropython.native
-def native_read(baton): ## Does not cross-compile
-    baton.acquire()
+def native_read(): ## Does not cross-compile
     from machine import Pin, ADC
-    a0 = ADC(Pin(26))
+    a0 = ADC(0) # Hard-coded for Adafruit Feather HUZZAH
 
     samples = [0 for __ in range(num_samples)]
 
     for ii in range(num_samples):
         samples[ii] = a0.read_u16()
-    baton.release()
 
-@micropython.viper
-def viper_read(baton): ## Does not cross-compile
-    baton.acquire()
+@micropython.viper     
+def viper_read(): ## Does not cross-compile
     from machine import Pin, ADC
-    a0 = ADC(Pin(26))
+    a0 = ADC(0) # Hard-coded for Adafruit Feather HUZZAH
 
     samples = [0 for __ in range(num_samples)]
 
     for ii in range(num_samples):
         samples[ii] = a0.read_u16()
-    baton.release()
-
-
